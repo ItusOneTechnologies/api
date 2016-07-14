@@ -1,0 +1,46 @@
+<div class="page-header">
+  <h1 ng-if="company.type == 'create'">Create Companies</h1>
+  <h1 ng-if="company.type == 'edit'">Edit {{ company.name }}</h1>
+</div>
+
+<form class="form-horizontal" ng-submit="company.saveCompany()">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Name</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="company.companyData.name" placeholder="Company">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Address</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="company.companyData.address">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">City</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="company.companyData.city">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">State</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="company.companyData.state">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="company.type == 'create'">Create {{ company.companyData.name }}</button>
+      <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="company.type == 'edit'">Edit {{ company.name }}</button>
+    </div>
+  </div>
+</form>
+
+<div class="row show-hide-message" ng-show="company.message">
+  <div class="col-sm-6 col-sm-offset-2">
+    <div class="alert alert-info">
+      {{ company.message }}
+    </div>
+  </div>
+</div>

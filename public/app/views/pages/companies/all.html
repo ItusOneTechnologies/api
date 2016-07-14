@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1>
+    Companies
+    <a href="/companies/create" class="btn btn-default">
+      <span class="glyphicon glyphicon-plus"></span>
+      New Company
+    </a>
+  </h1>
+</div>
+
+<!-- loading message -->
+<div class="jumbotron text-center" ng-show="user.processing">
+  <span class="glyphicon glyphicon-repeat spinner"></span>
+  <p>Loading companies</p>
+</div>
+
+<table class="table table-bordered table-striped" ng-show="company.companies">
+  <thead>
+    <tr>
+      <th>_id</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th class="col-sm-2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- loop over the companies -->
+    <tr ng-repeat="comp in company.companies">
+      <td>{{ comp._id }}</td>
+      <td>{{ comp.name }}</td>
+      <td>{{ comp.address }}</td>
+      <td>{{ comp.city }}</td>
+      <td>{{ comp.state }}</td>
+      <td class="col-sm-2">
+        <a ng-href="/companies/{{ comp._id }}" class="btn btn-primary col-sm-12">Edit</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
