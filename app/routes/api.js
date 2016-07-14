@@ -1,5 +1,6 @@
 var User       = require('../models/user.js');
 var Company    = require('../models/company.js');
+var Jobsite    = require('../models/jobsite.js');
 var config     = require('../../config.js');
 var jwt        = require('jsonwebtoken');
 
@@ -226,9 +227,11 @@ module.exports = function (app, express){
 
       // set the information
       company.name = req.body.name;
-      company.address = req.body.address;
-      company.city = req.body.city;
-      company.state = req.body.state;
+      company.location.push({
+        address : req.body.address,
+           city : req.body.city,
+          state : req.body.state
+      });
 
       // save the company and check for errors
       company.save(function (err) {
@@ -288,6 +291,48 @@ module.exports = function (app, express){
           });
         });
       });
+
+  apiRouter.route('/jobsites')
+
+    // create a new jobsite
+    .post(function (req, res) {
+      var jobsite = new Jobsite();
+
+      jobsite.name = req.body.name;
+      jobsite.location = {
+        address : req.body.address,
+           city : req.body.city,
+          state : req.body.state
+      };
+      jobsite.company_id = req.body.company_id;
+
+      jobsite.save(function (err) {
+        if (err) {
+          return res.send(err);
+        }
+
+        res.json({
+          message: 'Jobsite added to your company'
+        });
+      });
+    })
+    // get jobsites for the company
+    .get(function (req, res) {
+      if (req.query.company_id) {
+        Jobsite.find({
+          company_id: req.query.company_id
+        }, function (err, jobsites) {
+          if (err) res.send(err);
+
+          res.json(jobsites);
+        });
+      } else {
+        res.json({
+          success: false,
+          message: 'Not properly configured GET. Use Query.'
+        });
+      }
+    });
 
   return apiRouter;
 };
