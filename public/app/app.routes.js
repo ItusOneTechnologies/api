@@ -51,6 +51,13 @@ angular.module('app.routes', ['ngRoute'])
       controllerAs: 'company'
     })
 
+    // page for individual company
+    .when('/company', {
+      templateUrl: 'app/views/pages/companies/all.html',
+      controller: 'companyController',
+      controllerAs: 'company'
+    })
+
     // edit company
     .when('/companies/:company_id', {
       templateUrl: 'app/views/pages/companies/single.html',
