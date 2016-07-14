@@ -8,7 +8,6 @@ angular.module('registerService', [])
   };
 
   registerFactory.user = function (userData) {
-    console.log(userData);
     return $http.post('/register/user', userData);
   };
   return registerFactory;
