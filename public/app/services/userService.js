@@ -14,6 +14,15 @@ angular.module('userService', [])
     return $http.get('/api/users/');
   };
 
+  // get all users by company_id
+  userFactory.allByCompany = function (company_id) {
+    return $http.get('/api/users', {
+      params: {
+        company_id: company_id
+      }
+    })
+  };
+
   // create a user
   userFactory.create = function(userData) {
     return $http.post('/api/users', userData);
