@@ -14,7 +14,10 @@
   <p>Loading Jobsites...</p>
 </div>
 
-<table class="table table-bordered table-striped" ng-show="jobsite.jobsites">
+<div class="section-header" ng-if="jobsite.jobsites.length < 1">
+  <h3>I looks like you've registered no jobsites. Click New Jobsite above to begin.</h3>
+</div>
+<table class="table table-bordered table-striped" ng-show="jobsite.jobsites.length">
   <thead>
     <tr>
       <th>_id</th>
