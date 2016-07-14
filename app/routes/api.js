@@ -334,5 +334,46 @@ module.exports = function (app, express){
       }
     });
 
+  apiRouter.route('/jobsites/:jobsite_id')
+
+    .get(function (req, res) {
+      Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
+        if (err) res.send(err);
+
+        res.json(jobiste);
+      });
+    })
+
+    // API to update jobsite
+    .put(function (req, res) {
+      Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
+        if (err) res.send(err);
+
+        if (req.body.name) { jobsite.name = req.body.name; }
+        if (req.body.address) { jobiste.location.address = req.body.address; }
+        if (req.body.city) { jobsite.location.city = req.body.city; }
+        if (req.body.state) { jobsite.location.state = req.body.state; }
+
+        jobsite.save(function (err) {
+          if (err) return res.send(err);
+
+          res.json({
+            message: 'Jobsite Updated'
+          });
+        });
+      });
+    })
+    .delete(function (req, res) {
+      Jobsite.remove({
+        _id: req.params.jobsite_id
+      }, function (err, company) {
+        if (err) return res.send(err);
+
+        res.json({
+          message: 'Successfully deleted'
+        });
+      });
+    });
+
   return apiRouter;
 };
