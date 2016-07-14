@@ -340,25 +340,32 @@ module.exports = function (app, express){
       Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
         if (err) res.send(err);
 
-        res.json(jobiste);
+        console.log(jobsite.location);
+        console.log(jobsite.location.address);
+        res.json(jobsite);
       });
     })
 
     // API to update jobsite
     .put(function (req, res) {
+      var query = { _id: req.params.jobsite_id };
+
       Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
         if (err) res.send(err);
 
         if (req.body.name) { jobsite.name = req.body.name; }
-        if (req.body.address) { jobiste.location.address = req.body.address; }
+        console.log((req.body.address));
+        if (req.body.address) { jobsite.location.address = req.body.address; }
         if (req.body.city) { jobsite.location.city = req.body.city; }
         if (req.body.state) { jobsite.location.state = req.body.state; }
+        console.log(jobsite.location.address);
+        console.log(jobsite);
 
-        jobsite.save(function (err) {
+        Jobsite.update({ _id: jobsite._id }, jobsite, function (err) {
           if (err) return res.send(err);
 
           res.json({
-            message: 'Jobsite Updated'
+            message: 'Jobsite updated.'
           });
         });
       });
