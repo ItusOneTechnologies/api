@@ -1,0 +1,52 @@
+<div class="page-header">
+  <h1 ng-if="jobsite.type == 'create'">Create Jobsite</h1>
+  <h1 ng-if="jobsite.type == 'edit'">Edit Jobsite</h1>
+</div>
+
+<form class="form-horizontal" ng-submit="jobsite.saveJobsite()">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Company ID</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="jobsite.jobsiteData.company_id" placeholder="{{ jobsite.user.company_id }}" ng-value="jobsite.user.company_id" ng-init="jobsite.user.company_id" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Name</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="jobsite.jobsiteData.name" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Address</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="jobsite.jobsiteData.address" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">City</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="jobsite.jobsiteData.city" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">State</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="jobsite.jobsiteData.state" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="jobsite.type == 'create'">Create Jobsite</button>
+      <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="jobsite.type == 'edit'">Edit Jobsite</button>
+    </div>
+  </div>
+</form>
+
+<div class="row show-hide-message" ng-show="jobsite.message">
+  <div class="col-sm-6 col-sm-offset-2">
+    <div class="alert alert-info">
+      {{ jobsite.message }}
+    </div>
+  </div>
+</div>

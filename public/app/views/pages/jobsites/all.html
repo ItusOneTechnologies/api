@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h1>
+    Jobsite
+    <a href="/jobsites/create" class="btn btn-default">
+      <span class="glyphicon glyphicon-plus"></span>
+      New Jobsite
+    </a>
+  </h1>
+</div>
+
+<!-- loading message -->
+<div class="jumbotron text-center" ng-show="jobsite.processing">
+  <span class="glyphicon glyphicon-repeat spinner"></span>
+  <p>Loading Jobsites...</p>
+</div>
+
+<table class="table table-bordered table-striped" ng-show="jobsite.jobsites">
+  <thead>
+    <tr>
+      <th>_id</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th class="col-sm-2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- loop over the jobsites -->
+    <tr ng-repeat="job in jobsite.jobsites">
+      <td>{{ job._id }}</td>
+      <td>{{ job.name }}</td>
+      <td>{{ job.location.address }}</td>
+      <td>{{ job.location.city }}</td>
+      <td>{{ job.location.state }}</td>
+      <td>
+        <a ng-href="/jobsites/{{ job._id }}" class="btn btn-primary col-sm-6">Edit</a>
+        <a href="#" ng-click="job.deleteJobsite(job._id)" class="btn btn-danger col-sm-6">Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

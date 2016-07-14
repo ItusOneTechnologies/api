@@ -23,12 +23,14 @@
   <script src="app/controllers/userCtrl.js"></script>
   <script src="app/controllers/companyCtrl.js"></script>
   <script src="app/controllers/registerCtrl.js"></script>
+  <script src="app/controllers/jobsiteCtrl.js"></script>
 
   <!-- services -->
   <script src="app/services/authService.js"></script>
   <script src="app/services/userService.js"></script>
   <script src="app/services/companyService.js"></script>
   <script src="app/services/registerService.js"></script>
+  <script src="app/services/jobsiteService.js"></script>
 
   <!-- main Angular app files -->
   <script src="app/app.routes.js"></script>
@@ -46,6 +48,7 @@
         <ul class="nav navbar-nav" ng-if="main.loggedIn">
           <li><a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
           <li><a href="/company"><span class="glyphicon glyphicon-briefcase"></span> Company</a></li>
+          <li><a href="/jobsites"><span class="glyphicon glyphicon-map-marker"></span> Jobsites</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/">Home</a></li>

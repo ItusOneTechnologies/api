@@ -84,6 +84,19 @@ angular.module('app.routes', ['ngRoute'])
       templateUrl: 'app/views/pages/register/user.html',
       controller: 'registerController',
       controllerAs: 'register'
+    })
+
+    // jobsites view
+    .when('/jobsites', {
+      templateUrl: 'app/views/pages/jobsites/all.html',
+      controller: 'jobsiteController',
+      controllerAs: 'jobsite'
+    })
+
+    .when('/jobsites/create', {
+      templateUrl: 'app/views/pages/jobsites/single.html',
+      controller: 'jobsiteCreateController',
+      controllerAs: 'jobsite'
     });
 
   // clean URLs
