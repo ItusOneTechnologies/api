@@ -1,24 +1,24 @@
 angular.module('userCtrl', ['userService'])
 
-  .controller('userController', function (User) {
+  .controller('userController', function (User, $q) {
       var vm = this;
 
       // set a processing variable to show loading things
       vm.processing = true;
 
-      // grab all the users at page load
-      User.all()
-        .success(function (data) {
-          // bind the users that come back to vm.users
-          vm.users = data;
-        });
-
-      // grab current user at page load
+      // get current user by logged in user
       User.getCurrent()
-        .success(function (data) {
-          vm.processing = false;
-          // bind the user to vm.user
-          vm.user = data;
+        .success(function (user) {
+          vm.user = user;
+        })
+        // when that is successful and finished, get the users based on the
+        // company_id of the user
+        .finally(function () {
+          User.allByCompany(vm.user.company_id)
+            .success(function (users) {
+              vm.processing = false;
+              vm.users = users;
+            });
         });
 
       vm.deleteUser = function (id) {

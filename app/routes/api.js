@@ -123,7 +123,6 @@ module.exports = function (app, express){
     })
     // get users by company_id
     .get(function (req, res) {
-      console.log(req.query.company_id);
       // if req.query exists
       if (req.query.company_id) {
         User.find({
