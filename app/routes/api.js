@@ -116,7 +116,8 @@ module.exports = function (app, express){
           }
         }
         res.json({
-          message: 'user created!'
+          success: true,
+          message: 'User created!'
         });
       });
     })

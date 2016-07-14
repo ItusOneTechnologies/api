@@ -48,14 +48,22 @@ module.exports = function (app, express) {
       user.username = req.body.username;
       user.password = req.body.password;
       user.company_id = req.body.company_id;
-      console.log(req.body);
 
-      console.log(user);
       user.save( function (err, user) {
-        if (err) return res.send(err);
-
+        if (err) {
+          // duplicate entries
+          if (err.code == 11000) {
+            return res.json({
+              success: false,
+              message: 'A user with that username already exists.'
+            });
+          } else {
+            return res.send(err);
+          }
+        }
         res.json({
-          message: 'User registered'
+          success: true,
+          message: 'User registered.'
         });
       });
     });
