@@ -27,12 +27,13 @@
   </thead>
   <tbody>
     <!-- loop over the companies -->
-    <tr ng-repeat="comp in company.companies">
-      <td>{{ comp._id }}</td>
-      <td>{{ comp.name }}</td>
-      <td>{{ comp.address }}</td>
-      <td>{{ comp.city }}</td>
-      <td>{{ comp.state }}</td>
+    <tr>
+      {{ comp }}
+      <td>{{ company.companies._id }}</td>
+      <td>{{ company.companies.name }}</td>
+      <td>{{ company.companies.address }}</td>
+      <td>{{ company.companies.city }}</td>
+      <td>{{ company.companies.state }}</td>
       <td class="col-sm-2">
         <a ng-href="/companies/{{ comp._id }}" class="btn btn-primary col-sm-12">Edit</a>
       </td>

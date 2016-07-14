@@ -1,15 +1,23 @@
-angular.module('companyCtrl', ['companyService'])
+angular.module('companyCtrl', [
+  'companyService',
+  'userService'
+])
 
-  .controller('companyController', function (Company) {
+  .controller('companyController', function (Company, User) {
     var vm = this;
 
     // set a processing variable to show loading
     vm.processing = true;
 
-    // grab all companies at page load
-    Company.all()
-      .success(function (data) {
-        vm.companies = data;
+    User.getCurrent()
+      .success(function (user) {
+        vm.user = user;
+      })
+      .finally(function () {
+        Company.get(vm.user.company_id)
+          .success(function (company) {
+            vm.companies = company;
+          });
       });
   })
   .controller('companyCreateController', function (Company) {
