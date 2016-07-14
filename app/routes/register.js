@@ -18,9 +18,11 @@ module.exports = function (app, express) {
       console.log(req.body);
 
       company.name = req.body.name;
-      company.address = req.body.address;
-      company.city = req.body.city;
-      company.state = req.body.state;
+      company.location.push({
+        address : req.body.address,
+           city : req.body.city,
+          state : req.body.state
+      });
 
       company.save(function (err, company) {
         if (err) {
