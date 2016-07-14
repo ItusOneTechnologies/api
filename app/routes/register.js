@@ -48,7 +48,9 @@ module.exports = function (app, express) {
       user.username = req.body.username;
       user.password = req.body.password;
       user.company_id = req.body.company_id;
+      console.log(req.body);
 
+      console.log(user);
       user.save( function (err, user) {
         if (err) return res.send(err);
 
