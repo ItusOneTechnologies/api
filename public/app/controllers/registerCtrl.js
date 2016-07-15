@@ -11,6 +11,7 @@ angular.module('registerCtrl', [
 
       vm.message = '';
 
+      vm.companyData.index = 0; // this will always be the first company created
       Register.company(vm.companyData)
         .success(function (data) {
           vm.processing = false;
