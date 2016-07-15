@@ -1,6 +1,7 @@
 <div class="page-header">
   <h1 ng-if="company.type == 'create'">Create Companies</h1>
   <h1 ng-if="company.type == 'edit'">Edit {{ company.name }}</h1>
+  <a href="/locations/create" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Create Location</a>
 </div>
 
 <form class="form-horizontal" ng-submit="company.saveCompany()">
