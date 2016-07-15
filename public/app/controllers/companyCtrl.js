@@ -22,11 +22,17 @@ angular.module('companyCtrl', [
 
     vm.deleteLocation = function (index) {
       vm.processing = true;
-      Company.deleteLocation(vm.companies._id, index)
-        .success(function (data) {
-          vm.message = data.message;
-          vm.companies.location.splice(index, 1);
-        });
+      if (vm.companies.location.length > 1) {
+        Company.deleteLocation(vm.companies._id, index)
+          .success(function (data) {
+            vm.processing = false;
+            vm.message = data.message;
+            vm.companies.location.splice(index, 1);
+          });
+      } else {
+        vm.processing = false;
+        vm.message = 'Cannot delete only location. Must have at least one location.';
+      }
     };
   })
   .controller('companyCreateController', function (Company) {
