@@ -1,6 +1,6 @@
 <div class="page-header">
-  <h1 ng-if="company.type == 'create'">Create Companies</h1>
-  <h1 ng-if="company.type == 'edit'">Edit {{ company.name }}</h1>
+  <h1 ng-if="company.type == 'create'">Create Company</h1>
+  <h1 ng-if="company.type == 'edit'">Edit</h1>
   <a href="/locations/create" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Create Location</a>
 </div>
 
@@ -32,8 +32,8 @@
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">
-      <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="company.type == 'create'">Create {{ company.companyData.name }}</button>
-      <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="company.type == 'edit'">Edit {{ company.name }}</button>
+      <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="company.type == 'create'">Create</button>
+      <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="company.type == 'edit'">Save</button>
     </div>
   </div>
 </form>

@@ -349,6 +349,7 @@ module.exports = function (app, express){
               if (err) return res.send(err);
 
               res.json({
+                success: true,
                 message: 'Company Updated'
               });
             });
@@ -360,7 +361,46 @@ module.exports = function (app, express){
           });
         }
       });
-    }) ;
+    })
+    .delete(function (req, res) {
+      // find the company,
+      // remove the location by the index
+      // reset index on each element so it is correct
+      Company.findOne({ _id: req.params.company_id }, function (err, company) {
+        // check that index is < length as it will correspond to index of
+        // element in array, it cannot be == length
+        console.log('index: ');
+        console.log(req.query.index);
+        console.log('company_id: ');
+        console.log(req.params.company_id);
+        if (req.query.index < company.location.length) {
+          var locations = company.location;
+          locations.splice(req.query.index, 1);
+          for (var i = 0; i < locations.length; i++) {
+            locations[i].index = i;
+          }
+          Company.update({ _id: company._id }, { $set : { location: locations }}, function (err) {
+            if (err) {
+              return res.json({
+                success: false,
+                error: err
+              });
+            }
+
+            res.json({
+              success: true,
+              message: 'Locations updated',
+              locations: locations
+            });
+          });
+        } else {
+          res.json({
+            success: false,
+            message: 'The index request is out of range'
+          });
+        }
+      });
+    });
 
   apiRouter.route('/jobsites')
 

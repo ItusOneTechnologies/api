@@ -28,5 +28,14 @@ angular.module('companyService', [])
     return $http.delete('/api/companies/' + id);
   };
 
+  companyFactory.deleteLocation = function (id, index) {
+    return $http({
+      url: '/api/companies/' + id + '/locations',
+      method: "DELETE",
+      params: {
+        index: index
+      }
+    });
+  };
   return companyFactory;
 });

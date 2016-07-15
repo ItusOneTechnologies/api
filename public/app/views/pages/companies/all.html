@@ -38,6 +38,8 @@
         <td>Address</td>
         <td>City</td>
         <td>State</td>
+        <td class="col-sm-2"></td>
+
       </tr>
     </thead>
     <tbody>
@@ -45,5 +47,9 @@
         <td>{{ locations.address }}</td>
         <td>{{ locations.city }}</td>
         <td>{{ locations.state }}</td>
+        <td>
+          <a ng-href="/companies/{{ company.companies._id }}" class="btn btn-success col-sm-6">Edit</a>
+          <button ng-click="company.deleteLocation(locations.index)" class="btn btn-danger col-sm-6">Delete</button>
+        </td>
       </tr>
     </tbody>

@@ -19,6 +19,14 @@ angular.module('companyCtrl', [
             vm.companies = company;
           });
       });
+
+    vm.deleteLocation = function (index) {
+      vm.processing = true;
+      Company.deleteLocation(vm.companies._id, index)
+        .success(function (data) {
+          vm.message = data.message;
+        });
+    };
   })
   .controller('companyCreateController', function (Company) {
     var vm = this;
@@ -39,7 +47,7 @@ angular.module('companyCtrl', [
           vm.companyData = {};
           vm.message = data.message;
         });
-    }
+    };
   })
   .controller('companyEditController', function ($routeParams, Company) {
     var vm = this;
