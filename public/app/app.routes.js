@@ -100,6 +100,14 @@ angular.module('app.routes', ['ngRoute'])
       controllerAs: 'jobsite'
     })
 
+    // jobsites edit view
+    .when('/jobsites/:jobsite_id', {
+      templateUrl: 'app/views/pages/jobsites/single.html',
+      controller: 'jobsiteEditController',
+      controllerAs: 'jobsite'
+    })
+
+    // jobsites create view
     .when('/jobsites/create', {
       templateUrl: 'app/views/pages/jobsites/single.html',
       controller: 'jobsiteCreateController',

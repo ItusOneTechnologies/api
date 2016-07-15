@@ -35,7 +35,6 @@ angular.module('jobsiteCtrl', [
       vm.jobsiteData.company_id = vm.user.company_id;
       Jobsite.create(vm.jobsiteData)
         .success(function (data) {
-          console.log(vm.jobsiteData);
           vm.processing = false;
 
           // clear the form
@@ -43,4 +42,26 @@ angular.module('jobsiteCtrl', [
           vm.message = data.message;
         });
     }
-  });
+  })
+  .controller('jobsiteEditController', function ($routeParams, Jobsite) {
+    var vm = this;
+    vm.processing = true;
+    vm.type = 'edit';
+
+    Jobsite.get($routeParams.jobsite_id)
+      .success(function (jobsite) {
+        vm.processing = false;
+        vm.jobsite = jobsite;
+      })
+
+    vm.saveJobsite = function () {
+      vm.processing = true;
+      vm.message = '';
+
+      Jobsite.update(vm.jobsite._id, vm.jobsite)
+        .success(function (data) {
+          vm.processing = false;
+          vm.message = data.message;
+        });
+    };
+  })

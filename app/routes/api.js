@@ -464,18 +464,32 @@ module.exports = function (app, express){
         if (err) res.send(err);
 
         if (req.body.name) { jobsite.name = req.body.name; }
-        console.log((req.body.address));
-        if (req.body.address) { jobsite.location.address = req.body.address; }
-        if (req.body.city) { jobsite.location.city = req.body.city; }
-        if (req.body.state) { jobsite.location.state = req.body.state; }
-        console.log(jobsite.location.address);
-        console.log(jobsite);
+        // formatted with if - else statements to handle location
+        // being send in request as either individual properties or
+        // as an object with those properties
+        if (req.body.address) {
+          jobsite.location.address = req.body.address;
+        } else if (req.body.location.address) {
+          jobsite.location.address = req.body.location.address;
+        }
+        if (req.body.city) {
+          jobsite.location.city = req.body.city;
+        } else if (req.body.location.city) {
+          jobsite.location.city = req.body.location.city;
+        }
+        if (req.body.state) {
+          jobsite.location.state = req.body.state;
+        } else if (req.body.location.state) {
+          jobsite.location.state = req.body.location.state;
+        }
 
         Jobsite.update({ _id: jobsite._id }, jobsite, function (err) {
           if (err) return res.send(err);
 
           res.json({
-            message: 'Jobsite updated.'
+            success: true,
+            message: 'Jobsite updated.',
+            jobsite: jobsite
           });
         });
       });

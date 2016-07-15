@@ -22,6 +22,8 @@ angular.module('jobsiteService', [])
   };
 
   jobsiteFactory.update = function (id, jobsiteData) {
+    console.log(id);
+    console.log(jobsiteData);
     return $http.put('/api/jobsites/' + id, jobsiteData);
   };
 
