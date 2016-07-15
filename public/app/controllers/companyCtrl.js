@@ -25,6 +25,7 @@ angular.module('companyCtrl', [
       Company.deleteLocation(vm.companies._id, index)
         .success(function (data) {
           vm.message = data.message;
+          vm.companies.location.splice(index, 1);
         });
     };
   })

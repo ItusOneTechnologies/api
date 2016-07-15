@@ -319,7 +319,7 @@ module.exports = function (app, express){
         if (company) {
           // only update the company.location if the index is passed to avoid
           // updating attempting to update 'undefined'
-          if (req.body.index) {
+          if (req.body.index != undefined) {
             company.location.push({ index : req.body.index });
             if (req.body.address) {
               company.location[req.body.index].address = req.body.address;
