@@ -10,22 +10,22 @@
       <input type="text" class="form-control" ng-model="company.companyData.name" placeholder="Company">
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group" ng-repeat-start="location in company.companyData.location">
     <label class="col-sm-2 control-label">Address</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" ng-model="company.companyData.address">
+      <input type="text" class="form-control" ng-model="location.address">
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">City</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" ng-model="company.companyData.city">
+      <input type="text" class="form-control" ng-model="location.city">
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group" ng-repeat-end>
     <label class="col-sm-2 control-label">State</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" ng-model="company.companyData.state">
+      <input type="text" class="form-control" ng-model="location.state">
     </div>
   </div>
 
