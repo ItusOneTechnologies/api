@@ -69,7 +69,6 @@ angular.module('companyCtrl', [
     User.getCurrent()
       .success(function (user) {
         vm.user = user;
-        console.log(user);
       })
       .finally(function () {
         // after finished getting user,
@@ -77,7 +76,6 @@ angular.module('companyCtrl', [
         Company.get(vm.user.company_id)
           .success(function (company) {
             vm.company = company;
-            console.log(vm.company);
           });
       });
 
@@ -90,11 +88,9 @@ angular.module('companyCtrl', [
         // get the length of the current location array
         // that will be the index for the new location object
         vm.locationData.index = vm.company.location.length;
-        console.log(vm.locationData);
         Company.updateLocation(vm.company._id, vm.locationData)
           .success(function (data) {
             vm.proccessing = false;
-            console.log(data);
             vm.message = data.message;
             vm.locationData = {};
           });

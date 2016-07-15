@@ -268,27 +268,33 @@ module.exports = function (app, express){
           if (company) {
             // only update the company if there is new information
             if (req.body.name) { company.name = req.body.name; }
-            // only update the location if an index is passed to the
-            // request body
-            if (req.body.index) {
-              company.location.push({ index : req.body.index });
-              if (req.body.address) {
-                company.location[req.body.index].address = req.body.address;
-              }
-              if (req.body.address) {
-                company.location[req.body.index].city = req.body.state;
-              }
-              if (req.body.address) {
-                company.location[req.body.index].state = req.body.state;
+            if (req.body.location) {
+              for (var i = 0; i < company.location.length; i++) {
+                if (req.body.location[i]) {
+                  if (req.body.location[i].address) {
+                    company.location[i].address = req.body.location[i].address;
+                  }
+                  if (req.body.location[i].city) {
+                    company.location[i].city = req.body.location[i].city;
+                  }
+                  if (req.body.location[i].state) {
+                    company.location[i].state = req.body.location[i].state;
+                  }
+                }
               }
             }
-
-            company.save(function (err) {
+            // must use update to specific update the array in location
+            Company.update({ _id: company._id }, company, function (err) {
               if (err) return res.send(err);
 
               res.json({
-                message: 'Company Updated'
+                message: 'Company updated.'
               });
+            });
+          } else {
+            res.json({
+              success: false,
+              message: 'Nothing was sent to server.'
             });
           }
         });
@@ -311,6 +317,8 @@ module.exports = function (app, express){
         if (err) res.send(err);
 
         if (company) {
+          // only update the company.location if the index is passed to avoid
+          // updating attempting to update 'undefined'
           if (req.body.index) {
             company.location.push({ index : req.body.index });
             if (req.body.address) {
