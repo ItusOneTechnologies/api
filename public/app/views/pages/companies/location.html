@@ -2,7 +2,7 @@
   <h1>Create Locations</h1>
 </div>
 
-<form class="form-horizontal" ng-sumbit="location.saveLocation()">
+<form class="form-horizontal" ng-submit="location.saveLocation()">
   <div class="form-group">
     <label class="col-sm-2 control-label">Address</label>
     <div class="col-sm-6">
@@ -23,6 +23,16 @@
   </div>
 
   <div class="form-group">
-    <button type="submit" class="btn btn-success btn-lg btn-block">Create Location</button>
+    <div class="col-sm-offset-2 col-sm-6">
+      <button type="submit" class="btn btn-success btn-lg btn-block">Create Location</button>
+    </div>
   </div>
 </form>
+
+<div class="row show-hide-message" ng-show="location.message">
+  <div class="col-sm-6 col-sm-offset-2">
+    <div class="alert alert-info">
+      {{ location.message }}
+    </div>
+  </div>
+</div>

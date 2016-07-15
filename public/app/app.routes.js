@@ -72,6 +72,13 @@ angular.module('app.routes', ['ngRoute'])
       controllerAs: 'company'
     })
 
+    // create location for company
+    .when('/locations/create', {
+      templateUrl: 'app/views/pages/companies/location.html',
+      controller: 'locationCreateController',
+      controllerAs: 'location'
+    })
+
     // register screen
     .when('/register/company', {
       templateUrl: 'app/views/pages/register/company.html',

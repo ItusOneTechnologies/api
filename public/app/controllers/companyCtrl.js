@@ -61,4 +61,46 @@ angular.module('companyCtrl', [
           vm.message = data.message;
         });
     };
+  })
+  .controller('locationCreateController', function (Company, User) {
+    var vm = this;
+
+    // get the current user for company_id purposes
+    User.getCurrent()
+      .success(function (user) {
+        vm.user = user;
+        console.log(user);
+      })
+      .finally(function () {
+        // after finished getting user,
+        // get the company to get the company_id and current index
+        Company.get(vm.user.company_id)
+          .success(function (company) {
+            vm.company = company;
+            console.log(vm.company);
+          });
+      });
+
+
+    vm.saveLocation = function () {
+      vm.processing = true;
+      vm.message = '';
+
+      if (vm.locationData) {
+        // get the length of the current location array
+        // that will be the index for the new location object
+        vm.locationData.index = vm.company.location.length;
+        console.log(vm.locationData);
+        Company.update(vm.company._id, vm.locationData)
+          .success(function (data) {
+            vm.proccessing = false;
+            console.log(data);
+            vm.message = data.message;
+            vm.locationData = {};
+          });
+      } else {
+        vm.message = 'Please enter information into the fields';
+        vm.locationData = {};
+      }
+    };
   });
