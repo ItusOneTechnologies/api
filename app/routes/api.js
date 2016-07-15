@@ -304,6 +304,55 @@ module.exports = function (app, express){
           });
         });
       });
+  apiRouter.route('/companies/:company_id/locations')
+    // API to update locations in a company
+    .put(function (req, res) {
+      Company.findById(req.params.company_id, function (err, company) {
+        if (err) res.send(err);
+
+        if (company) {
+          if (req.body.index) {
+            company.location.push({ index : req.body.index });
+            if (req.body.address) {
+              company.location[req.body.index].address = req.body.address;
+            } else {
+              res.json({
+                success: false,
+                message: 'Address is needed to create a location'
+              });
+            }
+            if (req.body.city) {
+              company.location[req.body.index].city = req.body.city;
+            } else {
+              res.json({
+                success: false,
+                message: 'City is needed to create a location'
+              });
+            }
+            if (req.body.state) {
+              company.location[req.body.index].state = req.body.state;
+            } else {
+              res.json({
+                success: false,
+                message: 'State is needed to create a location'
+              });
+            }
+            company.save(function (err) {
+              if (err) return res.send(err);
+
+              res.json({
+                message: 'Company Updated'
+              });
+            });
+          }
+        } else {
+          res.json({
+            success: false,
+            message: 'Nothing to update. Please enter all fields'
+          });
+        }
+      });
+    }) ;
 
   apiRouter.route('/jobsites')
 

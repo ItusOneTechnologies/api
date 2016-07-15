@@ -17,8 +17,11 @@ angular.module('companyService', [])
   };
 
   companyFactory.update = function (id, companyData) {
-    console.log(id);
     return $http.put('/api/companies/' + id, companyData);
+  };
+
+  companyFactory.updateLocation = function (id, companyData) {
+    return $http.put('/api/companies/' + id + '/locations', companyData);
   };
 
   companyFactory.delete = function (id) {

@@ -91,7 +91,7 @@ angular.module('companyCtrl', [
         // that will be the index for the new location object
         vm.locationData.index = vm.company.location.length;
         console.log(vm.locationData);
-        Company.update(vm.company._id, vm.locationData)
+        Company.updateLocation(vm.company._id, vm.locationData)
           .success(function (data) {
             vm.proccessing = false;
             console.log(data);
