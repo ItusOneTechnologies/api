@@ -413,11 +413,19 @@ module.exports = function (app, express){
       // the process of adding a company
       console.log(req.body.name);
       jobsite.name = req.body.name;
-      jobsite.location = {
-        address : req.body.location.address,
-           city : req.body.location.city,
-          state : req.body.location.state
-      };
+      if (req.body.location)
+        jobsite.location = {
+          address : req.body.location.address,
+             city : req.body.location.city,
+            state : req.body.location.state
+        };
+      } else {
+        jobsite.location = {
+          address : req.body.address,
+             city : req.body.city,
+            state : req.body.state
+        };
+      }
       jobsite.company_id = req.body.company_id;
 
       jobsite.save(function (err) {
