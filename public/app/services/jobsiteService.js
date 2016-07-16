@@ -18,7 +18,7 @@ angular.module('jobsiteService', [])
   }
 
   jobsiteFactory.create = function (jobsiteData) {
-    return $http.post('api/jobsites/', jobsiteData);
+    return $http.post('api/jobsites', jobsiteData);
   };
 
   jobsiteFactory.update = function (id, jobsiteData) {

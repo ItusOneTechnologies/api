@@ -1,13 +1,14 @@
 <div class="page-header">
   <h1 ng-if="jobsite.type == 'create'">Create Jobsite</h1>
-  <h1 ng-if="jobsite.type == 'edit'">Edit Jobsite</h1>
+  <!-- <h1 ng-if="jobsite.type == 'edit'">Edit Jobsite</h1> -->
 </div>
 
 <form class="form-horizontal" ng-submit="jobsite.saveJobsite()">
   <div class="form-group">
     <label class="col-sm-2 control-label">Company ID</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" ng-model="jobsite.jobsite.company_id" placeholder="{{ jobsite.jobsite.company_id }}" ng-value="jobsite.jobsite.company_id" ng-init="jobsite.jobsite.company_id" disabled>
+      <input type="text" class="form-control" ng-model="jobsite.jobsite.company_id" placeholder="{{ jobsite.jobsite.company_id }}" ng-value="jobsite.jobsite.company_id" ng-init="jobsite.jobsite.company_id" disabled ng-if="jobsite.type == 'edit'">
+      <input type="text" class="form-control" ng-model="jobsite.user.company_id" placeholder="{{ jobsite.user.company_id }}" ng-value="jobsite.user.company_id" ng-init="jobsite.user.company_id" disabled ng-if="jobsite.type == 'create'">
     </div>
   </div>
   <div class="form-group">

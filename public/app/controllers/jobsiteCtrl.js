@@ -21,6 +21,8 @@ angular.module('jobsiteCtrl', [
   })
   .controller('jobsiteCreateController', function (Jobsite, User) {
     var vm = this;
+    // initialize empty object for jobsiteData
+    vm.jobsiteData = {};
 
     vm.type = 'create';
     User.getCurrent()
@@ -32,8 +34,9 @@ angular.module('jobsiteCtrl', [
       vm.processing = true;
 
       vm.message = '';
-      vm.jobsiteData.company_id = vm.user.company_id;
-      Jobsite.create(vm.jobsiteData)
+      vm.jobsite.company_id = vm.user.company_id;
+      console.log(vm.jobsite);
+      Jobsite.create(vm.jobsite)
         .success(function (data) {
           vm.processing = false;
 

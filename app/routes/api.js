@@ -408,20 +408,27 @@ module.exports = function (app, express){
     .post(function (req, res) {
       var jobsite = new Jobsite();
 
+      // need to add error checking on front end,
+      // and here to be sure no errors occur in
+      // the process of adding a company
+      console.log(req.body.name);
       jobsite.name = req.body.name;
       jobsite.location = {
-        address : req.body.address,
-           city : req.body.city,
-          state : req.body.state
+        address : req.body.location.address,
+           city : req.body.location.city,
+          state : req.body.location.state
       };
       jobsite.company_id = req.body.company_id;
 
       jobsite.save(function (err) {
         if (err) {
-          return res.send(err);
+          console.log(err);
+          res.send(err);
+          return;
         }
 
         res.json({
+          success: true,
           message: 'Jobsite added to your company'
         });
       });
@@ -450,8 +457,7 @@ module.exports = function (app, express){
       Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
         if (err) res.send(err);
 
-        console.log(jobsite.location);
-        console.log(jobsite.location.address);
+        console.log(jobsite);
         res.json(jobsite);
       });
     })
@@ -463,10 +469,15 @@ module.exports = function (app, express){
       Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
         if (err) res.send(err);
 
+        console.log(req.body);
         if (req.body.name) { jobsite.name = req.body.name; }
         // formatted with if - else statements to handle location
         // being send in request as either individual properties or
         // as an object with those properties
+        if (!jobsite.location) {
+          // if no jobsite.location object, initialize
+          jobsite.location = {};
+        }
         if (req.body.address) {
           jobsite.location.address = req.body.address;
         } else if (req.body.location.address) {
@@ -484,12 +495,17 @@ module.exports = function (app, express){
         }
 
         Jobsite.update({ _id: jobsite._id }, jobsite, function (err) {
-          if (err) return res.send(err);
+          if (err) return res.json({
+            success: false,
+            message: 'An error occured',
+            error: err
+          });
 
           res.json({
             success: true,
             message: 'Jobsite updated.',
-            jobsite: jobsite
+            jobsite: jobsite,
+            error: null
           });
         });
       });
@@ -498,10 +514,16 @@ module.exports = function (app, express){
       Jobsite.remove({
         _id: req.params.jobsite_id
       }, function (err, company) {
-        if (err) return res.send(err);
+        if (err) return res.json({
+          success: false,
+          message: 'An error occured',
+          error: err
+        });
 
         res.json({
-          message: 'Successfully deleted'
+          success: true,
+          message: 'Successfully deleted',
+          error: null
         });
       });
     });
