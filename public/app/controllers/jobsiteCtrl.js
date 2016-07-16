@@ -6,6 +6,7 @@ angular.module('jobsiteCtrl', [
   .controller('jobsiteController', function (Jobsite, User) {
     var vm = this;
     vm.processing = true;
+    vm.message = '';
 
     User.getCurrent()
       .success(function (user) {
@@ -18,6 +19,34 @@ angular.module('jobsiteCtrl', [
             vm.jobsites = jobsites;
           });
       });
+
+    vm.find = function (arr, id) {
+      for (var i in arr) {
+        if (arr[i]._id == id) {
+          return i;
+        }
+      }
+      return -1;
+    };
+
+    vm.deleteJobsite = function(id) {
+      Jobsite.delete(id)
+        .success(function (err, data) {
+          if (data.error) {
+            vm.message.message = data.message;
+            vm.message.error = data.error;
+          } else {
+            console.log(data);
+            vm.message = data.message;
+          }
+          var index = vm.find(vm.jobsites, id);
+          if (index) {
+            vm.jobsites.splice(index, 1);
+          } else {
+            vm.message = 'This object does not exist.';
+          }
+        });
+    }
   })
   .controller('jobsiteCreateController', function (Jobsite, User) {
     var vm = this;

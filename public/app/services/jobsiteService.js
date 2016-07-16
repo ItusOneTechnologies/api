@@ -28,7 +28,7 @@ angular.module('jobsiteService', [])
   };
 
   jobsiteFactory.delete = function (id) {
-    return $http.delete('/api/jobsites' + id);
+    return $http.delete('/api/jobsites/' + id);
   };
 
   return jobsiteFactory;

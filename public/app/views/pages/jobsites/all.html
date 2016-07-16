@@ -38,8 +38,16 @@
       <td>{{ job.location.state }}</td>
       <td>
         <a ng-href="/jobsites/{{ job._id }}" class="btn btn-primary col-sm-6">Edit</a>
-        <a href="#" ng-click="job.deleteJobsite(job._id)" class="btn btn-danger col-sm-6">Delete</a>
+        <a href="#" ng-click="jobsite.deleteJobsite(job._id)" class="btn btn-danger col-sm-6">Delete</a>
       </td>
     </tr>
   </tbody>
 </table>
+
+<div class="row show-hide-message">
+  <div class="col-sm-12">
+    <div class="alert alert-info" ng-if="jobsite.message">
+      {{ jobsite.message }}
+    </div>
+  </div>
+</div>

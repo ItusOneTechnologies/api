@@ -369,10 +369,6 @@ module.exports = function (app, express){
       Company.findOne({ _id: req.params.company_id }, function (err, company) {
         // check that index is < length as it will correspond to index of
         // element in array, it cannot be == length
-        console.log('index: ');
-        console.log(req.query.index);
-        console.log('company_id: ');
-        console.log(req.params.company_id);
         if (req.query.index < company.location.length) {
           var locations = company.location;
           locations.splice(req.query.index, 1);
@@ -383,6 +379,7 @@ module.exports = function (app, express){
             if (err) {
               return res.json({
                 success: false,
+                message: 'An error occurred.',
                 error: err
               });
             }
@@ -411,9 +408,8 @@ module.exports = function (app, express){
       // need to add error checking on front end,
       // and here to be sure no errors occur in
       // the process of adding a company
-      console.log(req.body.name);
       jobsite.name = req.body.name;
-      if (req.body.location)
+      if (req.body.location) {
         jobsite.location = {
           address : req.body.location.address,
              city : req.body.location.city,
@@ -430,7 +426,6 @@ module.exports = function (app, express){
 
       jobsite.save(function (err) {
         if (err) {
-          console.log(err);
           res.send(err);
           return;
         }
@@ -465,7 +460,6 @@ module.exports = function (app, express){
       Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
         if (err) res.send(err);
 
-        console.log(jobsite);
         res.json(jobsite);
       });
     })
@@ -477,7 +471,6 @@ module.exports = function (app, express){
       Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
         if (err) res.send(err);
 
-        console.log(req.body);
         if (req.body.name) { jobsite.name = req.body.name; }
         // formatted with if - else statements to handle location
         // being send in request as either individual properties or
@@ -519,21 +512,23 @@ module.exports = function (app, express){
       });
     })
     .delete(function (req, res) {
-      Jobsite.remove({
-        _id: req.params.jobsite_id
-      }, function (err, company) {
-        if (err) return res.json({
-          success: false,
-          message: 'An error occured',
-          error: err
-        });
+      Jobsite.findById(req.params.jobsite_id)
+        .remove()
+        .exec(function (err, data) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: 'An error occured',
+              error: err
+            });
+          }
 
-        res.json({
-          success: true,
-          message: 'Successfully deleted',
-          error: null
+          res.json({
+            success: true,
+            message: 'Successfully deleted.',
+            error: null
+          });
         });
-      });
     });
 
   return apiRouter;
