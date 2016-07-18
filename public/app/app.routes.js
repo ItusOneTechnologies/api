@@ -115,9 +115,16 @@ angular.module('app.routes', ['ngRoute'])
     })
 
     // jobsites view
-    .when('/jobsites/view/:jobsite_id', {
-      templateUrl: 'app/views/pages/jobsites/view.html',
-      controller: 'jobsiteViewController',
+    .when('/jobsites/monitor/:jobsite_id', {
+      templateUrl: 'app/views/pages/jobsites/monitor.html',
+      controller: 'jobsiteMonitorController',
+      controllerAs: 'jobsite'
+    })
+
+    // jobsites view
+    .when('/jobsites/report/:jobsite_id', {
+      templateUrl: 'app/views/pages/jobsites/report.html',
+      controller: 'jobsiteReportController',
       controllerAs: 'jobsite'
     });
 
