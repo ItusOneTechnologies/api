@@ -33,7 +33,8 @@
     <!-- loop over the jobsites -->
     <tr ng-repeat="job in jobsite.jobsites">
       <td>
-        <a href="/jobsites/view/{{ job._id }}" class="btn btn-warning col-sm-6 col-sm-offset-3">View</a>
+        <a href="/jobsites/monitor/{{ job._id }}" class="btn btn-warning col-sm-6">Monitor</a>
+        <a href="/jobsites/report/{{ job._id }}" class="btn btn-success col-sm-6">Report</a>
       </td>
       <td>{{ job._id }}</td>
       <td>{{ job.name }}</td>

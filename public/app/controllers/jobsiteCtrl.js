@@ -103,6 +103,27 @@ angular.module('jobsiteCtrl', [
     Jobsite.get($routeParams.jobsite_id)
       .success(function (jobsite) {
         vm.processing = false;
-        vm.jobsite = jobsite.jobsite;
+        if (jobsite.success) {
+          vm.jobsite = jobsite.jobsite;
+        } else {
+          vm.message = jobsite.message;
+          console.log(jobsite.error);
+        }
+      })
+      .finally(function () {
+        User.allByJobsite(vm.jobsite._id)
+          .success(function (data) {
+            if (data.success) {
+              if (data.user.length) {
+                vm.users = data.user;
+                console.log(vm.users);
+              } else {
+                vm.users = null;
+              }
+            } else {
+              vm.message = data.message;
+              console.log(data.error);
+            }
+          });
       });
   });
