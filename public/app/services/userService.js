@@ -25,6 +25,17 @@ angular.module('userService', [])
     });
   };
 
+  // get all users by jobsite_id
+  userFactory.allByJobsite = function (jobsite_id) {
+    return $http({
+      url: '/api/users/',
+      method: "GET",
+      params: {
+        jobsite_id: jobsite_id
+      }
+    });
+  };
+
   // create a user
   userFactory.create = function(userData) {
     return $http.post('/api/users', userData);

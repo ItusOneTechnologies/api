@@ -155,6 +155,26 @@ module.exports = function (app, express){
               error: null
              });
         });
+      } else if (req.query.jobsite_id) {
+        User.find({
+          jobsite_id: req.query.jobsite_id
+        }, function (err, users) {
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occurred.',
+                error: err
+            });
+            return;
+          }
+
+          res.json({
+            success: true,
+            message: 'Success',
+               user: users,
+              error: null
+          });
+        });
       } else {
         res.json({
           success: false,
@@ -270,6 +290,28 @@ module.exports = function (app, express){
              user: users,
             error: null
           });
+      });
+    });
+
+  apiRouter.route('/users/:jobsite_id')
+    .get(function (req, res) {
+      User.find({
+        jobsite_id: req.params.jobsite_id
+      }, function (err, users) {
+        if (err) {
+          res.json({
+            success: false,
+            message: 'An error occurred',
+              error: err
+          });
+          return;
+        }
+        res.json({
+          success: true,
+          message: 'Success.',
+             user: users,
+            error: null
+        });
       });
     });
 
