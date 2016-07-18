@@ -130,7 +130,7 @@ module.exports = function (app, express){
         User.find({
           company_id: req.query.company_id
         }, function (err, users) {
-          if (err) res.send(err)
+          if (err) res.send(err);
 
           res.json(users);
         });
@@ -146,7 +146,15 @@ module.exports = function (app, express){
     // get the user with that id
     .get(function (req, res) {
       User.findById(req.params.user_id, function (err, user) {
-        if (err) res.send(err);
+        if (err) {
+          // res.send(err)
+          res.json({
+            success: false,
+            message: 'An error occured locating the resource.',
+            error: err
+          });
+          return;
+        }
 
         res.json(user);
       });
