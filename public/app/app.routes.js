@@ -112,6 +112,13 @@ angular.module('app.routes', ['ngRoute'])
       templateUrl: 'app/views/pages/jobsites/single.html',
       controller: 'jobsiteEditController',
       controllerAs: 'jobsite'
+    })
+
+    // jobsites view
+    .when('/jobsites/view/:jobsite_id', {
+      templateUrl: 'app/views/pages/jobsites/view.html',
+      controller: 'jobsiteViewController',
+      controllerAs: 'jobsite'
     });
 
   // clean URLs

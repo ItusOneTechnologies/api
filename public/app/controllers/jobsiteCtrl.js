@@ -96,3 +96,13 @@ angular.module('jobsiteCtrl', [
         });
     };
   })
+  .controller('jobsiteViewController', function ($routeParams, Jobsite, User) {
+    var vm = this;
+    vm.processing = true;
+
+    Jobsite.get($routeParams.jobsite_id)
+      .success(function (jobsite) {
+        vm.processing = false;
+        vm.jobsite = jobsite.jobsite;
+      });
+  });

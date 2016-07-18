@@ -20,6 +20,7 @@
 <table class="table table-bordered table-striped" ng-show="jobsite.jobsites.length">
   <thead>
     <tr>
+      <th class="col-sm-2"></th>
       <th>_id</th>
       <th>Name</th>
       <th>Address</th>
@@ -31,6 +32,9 @@
   <tbody>
     <!-- loop over the jobsites -->
     <tr ng-repeat="job in jobsite.jobsites">
+      <td>
+        <a href="/jobsites/view/{{ job._id }}" class="btn btn-warning col-sm-6 col-sm-offset-3">View</a>
+      </td>
       <td>{{ job._id }}</td>
       <td>{{ job.name }}</td>
       <td>{{ job.location.address }}</td>
