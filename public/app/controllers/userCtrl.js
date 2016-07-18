@@ -1,8 +1,11 @@
-angular.module('userCtrl', ['userService'])
+angular.module('userCtrl', [
+  'userService',
+  'jobsiteService'
+])
 
-  .controller('userController', function (User, $q) {
+  .controller('userController', function (User, Jobsite, $q) {
       var vm = this;
-
+      vm.selected = [];
       // set a processing variable to show loading things
       vm.processing = true;
 
@@ -15,6 +18,13 @@ angular.module('userCtrl', ['userService'])
         // when that is successful and finished, get the users based on the
         // company_id of the user
         .finally(function () {
+          Jobsite.allByCompany(vm.user.company_id)
+            .success(function (jobsites) {
+              vm.jobsiteSuccess = jobsites.success;
+              if (jobsites.success) {
+                vm.jobsites = jobsites.jobsite;
+              }
+            })
           User.allByCompany(vm.user.company_id)
             .success(function (users) {
               if (users.success){
@@ -66,6 +76,13 @@ angular.module('userCtrl', ['userService'])
             vm.user = data;
           });
       };
+      vm.addToJobsite = function (jobsite_id) {
+        console.log(jobsite_id);
+        for (var i in vm.selected) {
+          console.log(i);
+          console.log(vm.selected[i]);
+        }
+      }
     })
 
     .controller('userCreateController', function ($rootScope, User) {

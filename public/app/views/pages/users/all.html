@@ -5,6 +5,23 @@
       <span class="glyphicon glyphicon-plus"></span>
       New User
     </a>
+    <div class="dropdown" style="display: inline-block">
+      <button type="button" class="btn btn-default dropdown-toggle" id="manage-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-cog"></span>
+        Manage
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="manage-dropdown">
+        <li><a class="dropdown-item" href="#">Delete Selected</a></li>
+        <li ng-if="!user.jobsiteSuccess"></li>
+        <li ng-if="user.jobsiteSuccess">
+          <ul class="list-group" ng-repeat="job in user.jobsites">
+            <a href="#" ng-click="user.addToJobsite(job._id)">
+              <li class="list-group-item">{{ job.name }}</li>
+            </a>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </h1>
 </div>
 
@@ -17,6 +34,7 @@
 <table class="table table-bordered table-striped" ng-show="user.users">
   <thead>
     <tr>
+      <th></th>
       <th>_id</th>
       <th>Name</th>
       <th>Username</th>
@@ -26,6 +44,7 @@
   <tbody>
     <!-- Loop over the users -->
     <tr ng-repeat="person in user.users">
+      <td><input type="checkbox" ng-model="user.selected[person._id]"></td>
       <td>{{ person._id }}</td>
       <td>{{ person.name }}</td>
       <td>{{ person.username }}</td>
