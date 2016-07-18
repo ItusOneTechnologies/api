@@ -205,6 +205,7 @@ module.exports = function (app, express){
           user.username = req.body.username
         }
         if (req.body.password) { user.password = req.body.password }
+        if (req.body.jobsite_id) { user.jobsite_id = req.body.jobsite_id; }
 
         user.save(function (err) {
           if (err) {

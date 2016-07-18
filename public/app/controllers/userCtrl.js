@@ -78,9 +78,38 @@ angular.module('userCtrl', [
       };
       vm.addToJobsite = function (jobsite_id) {
         console.log(jobsite_id);
-        for (var i in vm.selected) {
-          console.log(i);
-          console.log(vm.selected[i]);
+        // if array isn't empty
+        if (Object.keys(vm.selected).length) {
+          console.log('something is selected');
+          for (var i in vm.selected) {
+            // if the user is selected
+            console.log(vm.selected[i]);
+            if (vm.selected[i]) {
+              console.log(i);
+              User.get(i)
+                .success(function (data) {
+                  if (data.success) {
+                    vm.userData = data.user;
+                    vm.userData.jobsite_id = jobsite_id;
+                    User.update(vm.userData._id, vm.userData)
+                      .success(function (data) {
+                        if (data.success) {
+                          vm.message = data.message;
+                        } else {
+                          vm.message = data.message;
+                          console.log(data.error);
+                        }
+                      })
+                    console.log(vm.userData);
+                  } else {
+                    vm.message = data.message;
+                    console.log(data.error);
+                  }
+                });
+            }
+          }
+        } else {
+          vm.message = 'Nothing is selected.';
         }
       }
     })
