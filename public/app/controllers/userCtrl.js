@@ -21,6 +21,14 @@ angular.module('userCtrl', ['userService'])
             });
         });
 
+      vm.find = function (users, id) {
+        for (var i in users) {
+          if (users[i]._id == id) {
+            return i
+          }
+        }
+        return -1;
+      }
       vm.deleteUser = function (id) {
         vm.processing = true;
 
@@ -33,7 +41,13 @@ angular.module('userCtrl', ['userService'])
             User.all()
               .success(function (data) {
                 vm.processing = false;
-                vm.users = data;
+
+                var index = vm.find(vm.users, id);
+                if (index) {
+                  vm.users.splice(index, 1);
+                } else {
+                  vm.message = 'This object does not exist.';
+                }
               });
           });
       };

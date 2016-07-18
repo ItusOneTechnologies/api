@@ -36,7 +36,6 @@ angular.module('jobsiteCtrl', [
             vm.message.message = data.message;
             vm.message.error = data.error;
           } else {
-            console.log(data);
             vm.message = data.message;
           }
           var index = vm.find(vm.jobsites, id);
