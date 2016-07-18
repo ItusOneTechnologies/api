@@ -69,7 +69,7 @@ angular.module('jobsiteCtrl', [
           vm.processing = false;
 
           // clear the form
-          vm.jobsiteData = {};
+          vm.jobsite = {};
           vm.message = data.message;
         });
     }
