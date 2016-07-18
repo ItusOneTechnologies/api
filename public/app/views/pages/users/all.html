@@ -12,13 +12,10 @@
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="manage-dropdown">
         <li><a class="dropdown-item" href="#">Delete Selected</a></li>
-        <li ng-if="!user.jobsiteSuccess"></li>
-        <li ng-if="user.jobsiteSuccess">
-          <ul class="list-group" ng-repeat="job in user.jobsites">
-            <a href="#" ng-click="user.addToJobsite(job._id)">
-              <li class="list-group-item">{{ job.name }}</li>
-            </a>
-          </ul>
+        <li ng-repeat="job in user.jobsites" ng-if="user.jobsiteSuccess">
+          <a href="#" ng-click="user.addToJobsite(job._id)" class="dropdown-item">
+            Add to: {{ job.name }}
+          </a>
         </li>
       </ul>
     </div>
