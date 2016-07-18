@@ -9,15 +9,20 @@ angular.module('userCtrl', ['userService'])
       // get current user by logged in user
       User.getCurrent()
         .success(function (user) {
-          vm.user = user;
+          console.log(user);
+          vm.user = user.user;
         })
         // when that is successful and finished, get the users based on the
         // company_id of the user
         .finally(function () {
           User.allByCompany(vm.user.company_id)
             .success(function (users) {
-              vm.processing = false;
-              vm.users = users;
+              if (users.success){
+                vm.users = users.user;
+                vm.processing = false;
+              } else {
+                vm.message = users.message;
+              }
             });
         });
 
@@ -73,7 +78,7 @@ angular.module('userCtrl', ['userService'])
 
       User.getCurrent()
         .success(function (user) {
-          vm.userData.company_id = user.company_id;
+          vm.userData.company_id = user.user.company_id;
         });
 
       // function to create a user
@@ -110,7 +115,7 @@ angular.module('userCtrl', ['userService'])
       User.get($routeParams.user_id)
         .success(function (data) {
           if (data.success) {
-            vm.userData = data;
+            vm.userData = data.user;
           } else {
             console.log(data);
             vm.message = data.message;

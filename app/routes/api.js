@@ -21,12 +21,11 @@ module.exports = function (app, express){
       if (!user) {
         res.json({
           success: false,
-          message: 'Authentication failed: no user found'
+          message: 'Authentication failed: no user found',
+            error: err
         });
       } else if (user) {
         // check if the password matches
-        console.log(user.password)
-        console.log(req.body.password);
         var validPassword = user.comparePassword(req.body.password);
         if (!validPassword) {
           res.json({
@@ -46,7 +45,7 @@ module.exports = function (app, express){
           // return the information including token as JSON
           res.json({
             success: true,
-            message: 'Enjoy your token',
+            message: 'Token granted',
             token: token
           });
         }
@@ -88,7 +87,10 @@ module.exports = function (app, express){
   // test route to make sure everything is working
   // accessed at GET http://localhost:8080/api
   apiRouter.get('/', function (req, res) {
-    res.json({ message: 'hooray! Welcome to our api' });
+    res.json({
+      success: true,
+      message: 'Okay'
+    });
   });
 
   // more route for our API will happen here
@@ -114,7 +116,12 @@ module.exports = function (app, express){
               message: 'A user with that username already exists.'
             });
           } else {
-            return res.send(err);
+            res.json({
+              success: false,
+              message: 'An error occurred.',
+                error: err
+            });
+            return;
           }
         }
         res.json({
@@ -130,9 +137,20 @@ module.exports = function (app, express){
         User.find({
           company_id: req.query.company_id
         }, function (err, users) {
-          if (err) res.send(err);
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occurred.',
+                error: err
+            });
+            return;
+          }
 
-          res.json(users);
+          res.json({
+            success: true,
+            message: 'Success.',
+               user: users
+             });
         });
       } else {
         res.json({
@@ -150,20 +168,31 @@ module.exports = function (app, express){
           // res.send(err)
           res.json({
             success: false,
-            message: 'An error occured locating the resource.',
-            error: err
+            message: 'An error occured.',
+              error: err
           });
           return;
         }
 
-        res.json(user);
+        res.json({
+          success: true,
+          message: 'okay',
+             user: user,
+            error: null
+          });
       });
     })
     // update the user with this id
     .put(function (req, res) {
       // user our user model to find the user we want
       User.findById(req.params.user_id, function (err, user) {
-        if (err) res.send(err);
+        if (err) {
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
+        }
 
         // update the users info only if its new
         console.log(req.body);
@@ -194,7 +223,14 @@ module.exports = function (app, express){
       User.remove({
         _id: req.params.user_id
       }, function (err, user) {
-        if (err) return res.send(err);
+        if (err)  {
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
+          return;
+        }
 
         res.json({
           message: 'Successfully deleted'
@@ -209,7 +245,14 @@ module.exports = function (app, express){
       User.find({
         company_id: req.params.company_id
       }, function (err, users) {
-        if (err) res.send(err);
+        if (err) {
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
+          return;
+        }
 
         res.json(users);
       });
@@ -222,9 +265,20 @@ module.exports = function (app, express){
     User.findOne({
       username: req.decoded.username
     }, function (err, user) {
-      if (err) return err;
+      if (err) {
+        res.json({
+          success: false,
+          message: 'An error occured.',
+            error: err
+        });
+        return;
+      }
 
-      res.send(user);
+      res.json({
+        success: true,
+        message: 'okay',
+           user: user
+      });
     });
   });
 
@@ -245,7 +299,12 @@ module.exports = function (app, express){
       // save the company and check for errors
       company.save(function (err) {
         if (err) {
-          return res.send(err);
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
+          return;
         }
         res.json({
           message: 'Company created'
@@ -254,7 +313,14 @@ module.exports = function (app, express){
     })
     .get(function (req, res) {
       Company.find(function (err, companies) {
-        if (err) res.send(err);
+        if (err) {
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
+          return;
+        }
         res.json(companies);
       });
     });
@@ -263,7 +329,14 @@ module.exports = function (app, express){
       // get the company with that id
       .get(function (req, res) {
         Company.findById(req.params.company_id, function (err, company) {
-          if (err) res.send(err);
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occurred',
+                error: err
+            });
+            return;
+          }
 
           res.json(company);
         });
@@ -271,7 +344,14 @@ module.exports = function (app, express){
       // update the company with this id
       .put(function (req, res) {
         Company.findById(req.params.company_id, function (err, company) {
-          if (err) res.send(err);
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occured.',
+                error: err
+            });
+            return;
+          }
 
           // only do this if the company exists
           if (company) {
@@ -294,7 +374,14 @@ module.exports = function (app, express){
             }
             // must use update to specific update the array in location
             Company.update({ _id: company._id }, company, function (err) {
-              if (err) return res.send(err);
+              if (err) {
+                res.json({
+                  success: false,
+                  message: 'An error occurred.',
+                    error: err
+                });
+                return;
+              }
 
               res.json({
                 message: 'Company updated.'
@@ -303,8 +390,10 @@ module.exports = function (app, express){
           } else {
             res.json({
               success: false,
-              message: 'Nothing was sent to server.'
+              message: 'Nothing was sent to server.',
+                error: err
             });
+            return;
           }
         });
       })
@@ -312,7 +401,14 @@ module.exports = function (app, express){
         Company.remove({
           _id: req.params.company_id
         }, function (err, company) {
-          if (err) return res.send(err);
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occurred.',
+                error: err
+            });
+            return;
+          }
 
           res.json({
             message: 'Successfully deleted'
@@ -323,7 +419,14 @@ module.exports = function (app, express){
     // API to update locations in a company
     .put(function (req, res) {
       Company.findById(req.params.company_id, function (err, company) {
-        if (err) res.send(err);
+        if (err) {
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
+          return;
+        }
 
         if (company) {
           // only update the company.location if the index is passed to avoid
@@ -335,7 +438,8 @@ module.exports = function (app, express){
             } else {
               res.json({
                 success: false,
-                message: 'Address is needed to create a location'
+                message: 'Address is needed to create a location',
+                  error: null
               });
             }
             if (req.body.city) {
@@ -343,7 +447,8 @@ module.exports = function (app, express){
             } else {
               res.json({
                 success: false,
-                message: 'City is needed to create a location'
+                message: 'City is needed to create a location',
+                  error: null
               });
             }
             if (req.body.state) {
@@ -351,23 +456,34 @@ module.exports = function (app, express){
             } else {
               res.json({
                 success: false,
-                message: 'State is needed to create a location'
+                message: 'State is needed to create a location',
+                  error: null
               });
             }
             company.save(function (err) {
-              if (err) return res.send(err);
+              if (err) {
+                res.json({
+                  success: false,
+                  message: 'An error occurred.',
+                    error: err
+                });
+                return;
+              }
 
               res.json({
                 success: true,
-                message: 'Company Updated'
+                message: 'Company Updated',
+                  error: null
               });
             });
           }
         } else {
           res.json({
             success: false,
-            message: 'Nothing to update. Please enter all fields'
+            message: 'Nothing to update. Please enter all fields',
+              error: null
           });
+          return;
         }
       });
     })
@@ -389,21 +505,24 @@ module.exports = function (app, express){
               return res.json({
                 success: false,
                 message: 'An error occurred.',
-                error: err
+                  error: err
               });
             }
 
             res.json({
-              success: true,
-              message: 'Locations updated',
-              locations: locations
+                success: true,
+                message: 'Locations updated',
+              locations: locations,
+                  error: null
             });
           });
         } else {
           res.json({
             success: false,
-            message: 'The index request is out of range'
+            message: 'The index request is out of range',
+              error: null
           });
+          return;
         }
       });
     });
@@ -435,13 +554,18 @@ module.exports = function (app, express){
 
       jobsite.save(function (err) {
         if (err) {
-          res.send(err);
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
           return;
         }
 
         res.json({
           success: true,
-          message: 'Jobsite added to your company'
+          message: 'Jobsite added to your company',
+            error: err
         });
       });
     })
@@ -451,14 +575,22 @@ module.exports = function (app, express){
         Jobsite.find({
           company_id: req.query.company_id
         }, function (err, jobsites) {
-          if (err) res.send(err);
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occurred.',
+                error: err
+            });
+            return;
+          }
 
           res.json(jobsites);
         });
       } else {
         res.json({
           success: false,
-          message: 'Not properly configured GET. Use Query.'
+          message: 'Not properly configured GET. Use Query.',
+            error: null
         });
       }
     });
@@ -467,7 +599,14 @@ module.exports = function (app, express){
 
     .get(function (req, res) {
       Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
-        if (err) res.send(err);
+        if (err) {
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
+          return;
+        }
 
         res.json(jobsite);
       });
@@ -478,7 +617,14 @@ module.exports = function (app, express){
       var query = { _id: req.params.jobsite_id };
 
       Jobsite.findById(req.params.jobsite_id, function (err, jobsite) {
-        if (err) res.send(err);
+        if (err) {
+          res.json({
+            success: false,
+            message: 'An error occurred.',
+              error: err
+          });
+          return;
+        }
 
         if (req.body.name) { jobsite.name = req.body.name; }
         // formatted with if - else statements to handle location
@@ -505,11 +651,14 @@ module.exports = function (app, express){
         }
 
         Jobsite.update({ _id: jobsite._id }, jobsite, function (err) {
-          if (err) return res.json({
-            success: false,
-            message: 'An error occured',
-            error: err
-          });
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occured',
+                error: err
+            });
+            return;
+          }
 
           res.json({
             success: true,
@@ -528,7 +677,7 @@ module.exports = function (app, express){
             return res.json({
               success: false,
               message: 'An error occured',
-              error: err
+                error: err
             });
           }
 

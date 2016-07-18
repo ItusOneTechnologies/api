@@ -11,7 +11,7 @@ angular.module('companyCtrl', [
 
     User.getCurrent()
       .success(function (user) {
-        vm.user = user;
+        vm.user = user.user;
       })
       .finally(function () {
         Company.get(vm.user.company_id)
@@ -83,7 +83,7 @@ angular.module('companyCtrl', [
     // get the current user for company_id purposes
     User.getCurrent()
       .success(function (user) {
-        vm.user = user;
+        vm.user = user.user;
       })
       .finally(function () {
         // after finished getting user,

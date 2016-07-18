@@ -10,7 +10,7 @@ angular.module('jobsiteCtrl', [
 
     User.getCurrent()
       .success(function (user) {
-        vm.user = user;
+        vm.user = user.user;
       })
       .finally(function () {
         Jobsite.allByCompany(vm.user.company_id)
@@ -55,7 +55,7 @@ angular.module('jobsiteCtrl', [
     vm.type = 'create';
     User.getCurrent()
       .success(function (user) {
-        vm.user = user;
+        vm.user = user.user;
       });
 
     vm.saveJobsite = function () {
