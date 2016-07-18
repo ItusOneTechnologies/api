@@ -99,6 +99,7 @@ module.exports = function (app, express){
       var user = new User();
 
       // set the information
+      user.company_id = req.body.company_id;
       user.name = req.body.name;
       user.username = req.body.username;
       user.password = req.body.password;

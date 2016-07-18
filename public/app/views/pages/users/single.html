@@ -5,6 +5,12 @@
 
 <form class="form-horizontal" ng-submit="user.saveUser()">
   <div class="form-group">
+    <label class="col-sm-2 control-label">Company ID</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="user.userData.company_id" placeholder="{{ company_id }}" ng-value="company_id" ng-init="user.userData.company_id=company_id" disabled>
+    </div>
+  </div>
+  <div class="form-group">
     <label class="col-sm-2 control-label">Name</label>
     <div class="col-sm-6">
       <input type="text" class="form-control" ng-model="user.userData.name">

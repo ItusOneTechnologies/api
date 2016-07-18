@@ -49,12 +49,18 @@ angular.module('userCtrl', ['userService'])
       };
     })
 
-    .controller('userCreateController', function (User) {
+    .controller('userCreateController', function ($rootScope, User) {
       var vm = this;
+      vm.userData = {};
 
       // variable to hide/show elelments of the views
       // differentiates between create or edit pages
       vm.type = 'create';
+
+      User.getCurrent()
+        .success(function (user) {
+          vm.userData.company_id = user.company_id;
+        });
 
       // function to create a user
       vm.saveUser = function () {
@@ -69,7 +75,9 @@ angular.module('userCtrl', ['userService'])
             vm.processing = false;
 
             // clear the form
-            vm.userData = {};
+            vm.userData.name = '';
+            vm.userData.username = '';
+            vm.userData.password = '';
             vm.message = data.message;
           });
       }
@@ -99,7 +107,6 @@ angular.module('userCtrl', ['userService'])
           .success(function (data) {
             vm.processing = false;
 
-            vm.userData = {}
             vm.message = data.message;
           });
       };
