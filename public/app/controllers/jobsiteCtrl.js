@@ -16,7 +16,7 @@ angular.module('jobsiteCtrl', [
         Jobsite.allByCompany(vm.user.company_id)
           .success(function (jobsites) {
             vm.processing = false;
-            vm.jobsites = jobsites;
+            vm.jobsites = jobsites.jobsite;
           });
       });
 
@@ -82,7 +82,7 @@ angular.module('jobsiteCtrl', [
     Jobsite.get($routeParams.jobsite_id)
       .success(function (jobsite) {
         vm.processing = false;
-        vm.jobsite = jobsite;
+        vm.jobsite = jobsite.jobsite;
       })
 
     vm.saveJobsite = function () {

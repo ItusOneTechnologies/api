@@ -606,7 +606,12 @@ module.exports = function (app, express){
             return;
           }
 
-          res.json(jobsites);
+          res.json({
+            success: true,
+            message: 'Success.',
+            jobsite: jobsites,
+              error: null
+          });
         });
       } else {
         res.json({
@@ -630,7 +635,12 @@ module.exports = function (app, express){
           return;
         }
 
-        res.json(jobsite);
+        res.json({
+          success: true,
+          message: 'Success.',
+          jobsite: jobsite,
+            error: null
+        });
       });
     })
 
