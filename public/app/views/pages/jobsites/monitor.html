@@ -1,0 +1,11 @@
+<div class="page-header">
+  <h1>Monitor {{ jobsite.name }}</h1>
+</div>
+
+<div class="page-section">
+  <h2>Users</h2>
+</div>
+<div ng-if="!jobsite.users">
+  <h4>It looks like there are no users assigned to this jobsite</h4>
+  <p>To assign users to this jobsite, go to the users page</p>
+</div>

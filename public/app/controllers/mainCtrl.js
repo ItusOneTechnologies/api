@@ -15,7 +15,7 @@ angular.module('mainCtrl', [])
     if (vm.loggedIn) {
       Auth.getUser()
         .success(function (data) {
-          vm.user = data;
+          vm.user = data.user;
         });
     }
   });

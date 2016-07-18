@@ -96,7 +96,7 @@ angular.module('jobsiteCtrl', [
         });
     };
   })
-  .controller('jobsiteViewController', function ($routeParams, Jobsite, User) {
+  .controller('jobsiteReportController', function ($routeParams, Jobsite, User) {
     var vm = this;
     vm.processing = true;
 
