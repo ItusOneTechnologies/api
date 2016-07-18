@@ -16,7 +16,11 @@ angular.module('companyCtrl', [
       .finally(function () {
         Company.get(vm.user.company_id)
           .success(function (company) {
-            vm.companies = company;
+            if (company.success) {
+              vm.companies = company.company;
+            } else {
+              vm.message = company.message;
+            }
           });
       });
 
@@ -62,7 +66,7 @@ angular.module('companyCtrl', [
 
     Company.get($routeParams.company_id)
       .success(function (data) {
-        vm.companyData = data;
+        vm.companyData = data.company;
       });
 
     vm.saveCompany = function () {
@@ -90,7 +94,7 @@ angular.module('companyCtrl', [
         // get the company to get the company_id and current index
         Company.get(vm.user.company_id)
           .success(function (company) {
-            vm.company = company;
+            vm.company = company.company;
           });
       });
 

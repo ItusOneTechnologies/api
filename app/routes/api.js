@@ -89,7 +89,8 @@ module.exports = function (app, express){
   apiRouter.get('/', function (req, res) {
     res.json({
       success: true,
-      message: 'Okay'
+      message: 'Okay',
+        error: null
     });
   });
 
@@ -126,7 +127,8 @@ module.exports = function (app, express){
         }
         res.json({
           success: true,
-          message: 'User created!'
+          message: 'User created!',
+            error: null
         });
       });
     })
@@ -149,13 +151,15 @@ module.exports = function (app, express){
           res.json({
             success: true,
             message: 'Success.',
-               user: users
+               user: users,
+              error: null
              });
         });
       } else {
         res.json({
           success: false,
-          message: 'Not properly configured GET. Use Query.'
+          message: 'Not properly configured GET. Use Query.',
+            error: null
         });
       }
     });
@@ -207,14 +211,17 @@ module.exports = function (app, express){
             if (err.code == 11000) {
               return res.json({
                 success: false,
-                message: 'That username is in use already'
+                message: 'That username is in use already',
+                  error: null
               });
             } else {
               return res.send(err);
             }
           }
           res.json({
-            message: 'User updated'
+            success: true,
+            message: 'User updated',
+              error: null
           });
         });
       });
@@ -233,7 +240,9 @@ module.exports = function (app, express){
         }
 
         res.json({
-          message: 'Successfully deleted'
+          success: true,
+          message: 'Successfully deleted',
+            error: null
         });
       });
     });
@@ -254,7 +263,12 @@ module.exports = function (app, express){
           return;
         }
 
-        res.json(users);
+        res.json({
+          success: true,
+          message: 'Success.',
+             user: users,
+            error: null
+          });
       });
     });
 
@@ -277,7 +291,8 @@ module.exports = function (app, express){
       res.json({
         success: true,
         message: 'okay',
-           user: user
+           user: user,
+          error: null
       });
     });
   });
@@ -307,7 +322,9 @@ module.exports = function (app, express){
           return;
         }
         res.json({
-          message: 'Company created'
+          success: true,
+          message: 'Company created',
+            error: null
         });
       });
     })
@@ -338,7 +355,12 @@ module.exports = function (app, express){
             return;
           }
 
-          res.json(company);
+          res.json({
+            success: true,
+            message: 'Success',
+            company: company,
+              error: null
+          });
         });
       })
       // update the company with this id
