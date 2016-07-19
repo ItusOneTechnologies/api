@@ -1,6 +1,7 @@
 var User       = require('../models/user.js');
 var Company    = require('../models/company.js');
 var Jobsite    = require('../models/jobsite.js');
+var Report     = require('../models/report.js');
 var config     = require('../../config.js');
 var jwt        = require('jsonwebtoken');
 
@@ -762,6 +763,41 @@ module.exports = function (app, express){
             error: null
           });
         });
+    });
+
+  apiRouter.route('/reports')
+
+    .get(function (req, res) {
+      if  (req.query.jobsite_id) {
+        Report.find({
+          jobsite_id: req.query.jobsite_id,
+                type: req.query.type
+        }, function (err, report) {
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occurred.',
+                error: err
+            });
+            return;
+          }
+          if (report.length) {
+            res.json({
+              success: true,
+              message: 'Report retrieved',
+               report: report,
+                error: null
+            });
+          } else {
+            res.json({
+              success: false,
+              message: 'There are no reports matching those criteria.',
+               report: null,
+                error: null
+            });
+          }
+        });
+      }
     });
 
   return apiRouter;
