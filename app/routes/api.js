@@ -768,7 +768,7 @@ module.exports = function (app, express){
   apiRouter.route('/reports')
 
     .get(function (req, res) {
-      if  (req.query.jobsite_id) {
+      if  (req.query.jobsite_id && req.query.type) {
         Report.find({
           jobsite_id: req.query.jobsite_id,
                 type: req.query.type
@@ -796,6 +796,40 @@ module.exports = function (app, express){
                 error: null
             });
           }
+        });
+      } else if (req.query.jobsite_id) {
+        Report.find({
+          jobsite_id: req.query.jobsite_id
+        }, function (err, report) {
+          if (err) {
+            res.json({
+              success: false,
+              message: 'An error occurred.',
+                error: err
+            });
+            return;
+          }
+          if (report.length) {
+            res.json({
+              success: true,
+              message: 'Report retrieved',
+               report: report,
+                error: null
+            });
+        } else {
+            res.json({
+              success: false,
+              message: 'There are no reports matching those criteria.',
+               report: null,
+                error: null
+            });
+          }
+        });
+      } else {
+        res.json({
+          success: false,
+          message: 'Improperly configured GET. Use a query.',
+            error: null
         });
       }
     });

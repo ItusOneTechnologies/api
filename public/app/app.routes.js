@@ -124,8 +124,8 @@ angular.module('app.routes', ['ngRoute'])
     // jobsites view
     .when('/jobsites/report/:jobsite_id', {
       templateUrl: 'app/views/pages/jobsites/report.html',
-      controller: 'jobsiteReportController',
-      controllerAs: 'jobsite'
+      controller: 'reportController',
+      controllerAs: 'report'
     });
 
   // clean URLs

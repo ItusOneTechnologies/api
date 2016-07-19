@@ -7,10 +7,12 @@ angular.module('userApp', [
   'companyCtrl',
   'registerCtrl',
   'jobsiteCtrl',
+  'reportCtrl',
   'userService',
   'companyService',
   'registerService',
-  'jobsiteService'
+  'jobsiteService',
+  'reportService'
 ])
 // application configuration to integrate into requests
 .config(function ($httpProvider) {
