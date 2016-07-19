@@ -4,9 +4,9 @@
 
 <div class="row">
   <div class="col-sm-6" ng-repeat-start="rep in report.reports">
-    <div class="thumbnail shadowed">
+    <div class="thumbnail shadowed" ng-if="rep.statistics.length">
       <div class="caption">
-        <h3>Statistics</h3 ng-if="rep.statistics.length">
+        <h3>Statistics</h3>
         <ul class="list-group" ng-repeat="stat in rep.statistics">
           <li class="list-group-item">{{ stat }}</li>
         </ul>
@@ -14,12 +14,31 @@
     </div>
   </div>
   <div class="col-sm-6" ng-repeat-end>
-    <div class="thumbnail shadowed">
+    <div class="thumbnail shadowed" ng-if="rep.recommendations.length">
       <div class="caption">
-        <h3>Recommendations</h3 ng-if="rep.recommendations.length">
+        <h3>Recommendations</h3>
         <ul class="list-group" ng-repeat="rec in rep.recommendations">
           <li class="list-group-item">{{ rec }}</li>
         </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6" ng-if="rep.type == 'bar'" ng-repeat-start="rep in report.reports">
+    <div class="thumbnail shadowed">
+      <div class="caption">
+        <h3>{{ rep.name }}</h3>
+        <canvas id="_{{ rep._id }}"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6" ng-if="rep.type == 'line'" ng-repeat-end>
+    <div class="thumbnail shadowed">
+      <div class="caption">
+        <h3>{{ rep.name }}</h3>
+        <canvas id="_{{ rep._id }}"></canvas>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ var Schema   = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
 var ReportSchema = new Schema({
+             name: { type: String, required: true },
              type: { type: String, required: true },
        jobsite_id: { type: ObjectId, required: true },
       data_legend: Array,
