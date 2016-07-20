@@ -4,7 +4,7 @@ angular.module('reportCtrl', [
   'userService'
 ])
 
-  .controller('reportController', function (Report, User, Jobsite, $routeParams, reports, $scope) {
+  .controller('reportController', function (Report, Jobsite, $routeParams, reports, $scope) {
     var vm = this;
     vm.bar = {};
     vm.processing = true;
@@ -31,7 +31,15 @@ angular.module('reportCtrl', [
       }
     });
 
-    // addEventListener('load', load, false);
+    Jobsite.get($routeParams.jobsite_id)
+      .success(function (data) {
+        if (data.success) {
+          vm.jobsite = data.jobsite;
+        } else {
+          console.log(data);
+        }
+      });
+
     for (var i in vm.reports) {
       if (vm.reports[i].type == 'bar') {
         vm.bar.data = {

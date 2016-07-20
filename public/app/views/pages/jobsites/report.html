@@ -2,6 +2,9 @@
   <h1>{{ report.jobsite.name }} Reports</h1>
 </div>
 
+<div class="section-header" ng-if="!report.reports">
+  <h3>No reports are compiled for this jobsite yet.</h3>
+</div>
 <div class="row">
   <div class="col-sm-6" ng-repeat-start="rep in report.reports">
     <div class="thumbnail shadowed" ng-if="rep.statistics.length">
