@@ -1,6 +1,6 @@
 angular.module('reportService', [])
 
-  .factory('Report', function ($http) {
+  .factory('Report', function ($http, $q) {
     var reportFactory = {};
 
     reportFactory.get = function (jobsite_id) {
@@ -22,6 +22,10 @@ angular.module('reportService', [])
                 type: type
         }
       });
+    };
+
+    reportFactory.getReports = function (routeParams) {
+      return $q.when(reportFactory.get(routeParams));
     };
 
     return reportFactory;

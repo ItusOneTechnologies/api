@@ -1,4 +1,7 @@
-angular.module('app.routes', ['ngRoute'])
+angular.module('app.routes', [
+  'ngRoute',
+  'reportService'
+])
 
 .config(function ($routeProvider, $locationProvider) {
   $routeProvider
@@ -125,7 +128,12 @@ angular.module('app.routes', ['ngRoute'])
     .when('/jobsites/report/:jobsite_id', {
       templateUrl: 'app/views/pages/jobsites/report.html',
       controller: 'reportController',
-      controllerAs: 'report'
+      controllerAs: 'report',
+      resolve: {
+        reports: function (Report, $route) {
+          return Report.getReports($route.current.params.jobsite_id);
+        }
+      }
     });
 
   // clean URLs

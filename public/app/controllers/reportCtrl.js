@@ -4,62 +4,52 @@ angular.module('reportCtrl', [
   'userService'
 ])
 
-  .controller('reportController', function (Report, User, Jobsite, $routeParams) {
+  .controller('reportController', function (Report, User, Jobsite, $routeParams, reports, $scope) {
     var vm = this;
     vm.bar = {};
     vm.processing = true;
+    vm.reports = reports.data.report;
+    console.log(vm.reports);
 
-    addEventListener('load', load, false);
-
-    // get all report documents, sent to client as an Array
-    Report.get($routeParams.jobsite_id)
-      .success(function (data) {
-        if (data.success) {
-          // vm.processing = false;
-          vm.reports = data.report;
-          console.log(vm.reports);
-        } else {
-          vm.message = data.message;
-          console.log(data.error);
-        }
-      })
-      .finally(function () {
-        console.log('made it finally');
-        for (var i in vm.reports) {
-          if (vm.reports[i].type == 'bar') {
-            vm.bar.data = {
-              labels: vm.reports[i].data_legend,
-              datasets: [
-                {
-                  label: vm.reports[i].name,
-                  backgroundColor: "rgba(255, 99, 132, 0.2)",
-                  borderColor: "rgba(255, 99, 132, 1)",
-                  borderWidth: 1,
-                  hoverBackgroundColor: "rgba(255, 99, 132, 0.4)",
-                  hoverBorderColor: "rgba(255, 99, 132, 1)",
-                  data: vm.reports[i].data_set
-                }
-              ]
-            };
-            vm.bar_selector = vm.reports[i]._id;
-            console.log('bar selector in finally: ' + vm.bar_selector);
+    // watch for the document to load the element id
+    $scope.$watch(function () {
+      return document.getElementById('_' + vm.bar_selector);
+    }, function (canvas, nullValue) {
+      // once the canvas is loaded with this id
+      if (canvas) {
+        console.log(canvas.getContext('2d'));
+        vm.bar.context = canvas.getContext('2d');
+        // create a chart
+        new Chart(vm.bar.context, {
+          type: 'bar',
+          data: vm.bar.data,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
           }
-        }
-      });
+        });
+      }
+    });
 
-    function load() {
-      console.log('loaded...');
-      vm.processing = false;
-      vm.bar.context = document.getElementById('_' + vm.bar_selector).getContext('2d');
-      console.log(vm.bar.context);
-      var bar = new Chart(vm.bar.context, {
-        type: 'bar',
-        data: vm.bar.data,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
-      });
-      console.log(vm.bar);
-    };
+    // addEventListener('load', load, false);
+    for (var i in vm.reports) {
+      if (vm.reports[i].type == 'bar') {
+        vm.bar.data = {
+          labels: vm.reports[i].data_legend,
+          datasets: [
+            {
+              label: vm.reports[i].name,
+              backgroundColor: "rgba(255, 99, 132, 0.2)",
+              borderColor: "rgba(255, 99, 132, 1)",
+              borderWidth: 1,
+              hoverBackgroundColor: "rgba(255, 99, 132, 0.4)",
+              hoverBorderColor: "rgba(255, 99, 132, 1)",
+              data: vm.reports[i].data_set
+            }
+          ]
+        };
+        vm.bar_selector = vm.reports[i]._id;
+        console.log('bar selector in finally: ' + vm.bar_selector);
+      }
+    }
   });
