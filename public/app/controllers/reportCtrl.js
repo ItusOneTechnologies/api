@@ -7,22 +7,36 @@ angular.module('reportCtrl', [
   .controller('reportController', function (Report, Jobsite, $routeParams, reports, $scope) {
     var vm = this;
     vm.bar = {};
+    vm.line = {};
     vm.processing = true;
     vm.reports = reports.data.report;
     console.log(vm.reports);
 
     // watch for the document to load the element id
     $scope.$watch(function () {
+      // watch for one of the instances of this.
+      // this will will need to be changed in the future for resiliency to no
+      // bar graph being present
       return document.getElementById('_' + vm.bar_selector);
     }, function (canvas, nullValue) {
       // once the canvas is loaded with this id
       if (canvas) {
         console.log(canvas.getContext('2d'));
         vm.bar.context = canvas.getContext('2d');
+        vm.line.context = document.getElementById('_' + vm.line_selector).getContext('2d');
+
         // create a chart
         new Chart(vm.bar.context, {
           type: 'bar',
           data: vm.bar.data,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+        new Chart(vm.line.context, {
+          type: 'line',
+          data: vm.line.data,
           options: {
             responsive: true,
             maintainAspectRatio: false
@@ -42,22 +56,13 @@ angular.module('reportCtrl', [
 
     for (var i in vm.reports) {
       if (vm.reports[i].type == 'bar') {
-        vm.bar.data = {
-          labels: vm.reports[i].data_legend,
-          datasets: [
-            {
-              label: vm.reports[i].name,
-              backgroundColor: "rgba(255, 99, 132, 0.2)",
-              borderColor: "rgba(255, 99, 132, 1)",
-              borderWidth: 1,
-              hoverBackgroundColor: "rgba(255, 99, 132, 0.4)",
-              hoverBorderColor: "rgba(255, 99, 132, 1)",
-              data: vm.reports[i].data_set
-            }
-          ]
-        };
+        vm.bar.data = Report.getBar(vm.reports[i]);
+        console.log(vm.bar.data);
         vm.bar_selector = vm.reports[i]._id;
-        console.log('bar selector in finally: ' + vm.bar_selector);
+      } else if (vm.reports[i].type == 'line') {
+        vm.line.data = Report.getLine(vm.reports[i]);
+        console.log(vm.line.data);
+        vm.line_selector = vm.reports[i]._id;
       }
     }
   });
