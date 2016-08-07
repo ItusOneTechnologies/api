@@ -134,6 +134,13 @@ angular.module('app.routes', [
           return Report.getReports($route.current.params.jobsite_id);
         }
       }
+    })
+
+    // report dashboard
+    .when('/reports/:company_id', {
+      templateUrl: 'app/views/pages/reports/all.html',
+      controller: 'allReportsController',
+      controllerAs: 'reports'
     });
 
   // clean URLs

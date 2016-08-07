@@ -4,6 +4,18 @@ angular.module('reportCtrl', [
   'userService'
 ])
 
+  .controller('allReportsController', function (Report, Jobsite, $routeParams) {
+    var vm = this;
+
+    Jobsite.allByCompany($routeParams.company_id)
+      .success(function (data) {
+        if (data.success)
+          console.log(data);
+        else
+          console.log(data);
+      });
+
+  })
   .controller('reportController', function (Report, Jobsite, $routeParams, reports, $scope) {
     var vm = this;
     vm.bar = {};
