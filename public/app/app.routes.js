@@ -8,7 +8,9 @@ angular.module('app.routes', [
 
     // home page route
     .when('/', {
-      templateUrl: 'app/views/pages/home.html'
+      templateUrl: 'app/views/pages/login.html',
+      controller: 'mainController',
+      controllerAs: 'login'
     })
 
     // login page
