@@ -10,6 +10,9 @@
   <p>Loading reports</p>
 </div>
 
+<div class="section-header" ng-show="reports.jobsites.length < 1">
+  <h3>There are currently no jobsites to report on.</h3>
+</div>
 <table class="table table-bordered table-striped" ng-show="reports.jobsites.length">
   <thead>
     <tr>
