@@ -1,1 +1,32 @@
-<h1>TEST</h1>
+<div class="page-header">
+  <h1>
+    Reports
+  </h1>
+</div>
+
+<!-- Loading message -->
+<div class="jumbotron text-center" ng-show="reports.processing">
+  <span class="glyphicon glyphicon-repeat spinner"></span>
+  <p>Loading reports</p>
+</div>
+
+<table class="table table-bordered table-striped" ng-show="reports.jobsites.length">
+  <thead>
+    <tr>
+      <th>_id</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="clickable" ng-repeat="job in reports.jobsites" ng-click="reports.showReport(job._id)">
+      <td>{{ job._id }}</td>
+      <td>{{ job.name }}</td>
+      <td>{{ job.location.address }}</td>
+      <td>{{ job.location.city }}</td>
+      <td>{{ job.location.state }}</td>
+    </tr>
+  </tbody>
+</table>

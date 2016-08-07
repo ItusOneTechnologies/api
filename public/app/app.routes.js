@@ -137,7 +137,7 @@ angular.module('app.routes', [
     })
 
     // report dashboard
-    .when('/reports/:company_id', {
+    .when('/reports', {
       templateUrl: 'app/views/pages/reports/all.html',
       controller: 'allReportsController',
       controllerAs: 'reports'

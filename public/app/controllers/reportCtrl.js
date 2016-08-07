@@ -1,20 +1,31 @@
 angular.module('reportCtrl', [
+  'userService',
   'reportService',
   'jobsiteService',
   'userService'
 ])
 
-  .controller('allReportsController', function (Report, Jobsite, $routeParams) {
+  .controller('allReportsController', function (Report, User, Jobsite, $routeParams, $location) {
     var vm = this;
 
-    Jobsite.allByCompany($routeParams.company_id)
+    User.getCurrent()
       .success(function (data) {
-        if (data.success)
-          console.log(data);
-        else
-          console.log(data);
+        vm.user = data.user
+      })
+      .finally(function () {
+        Jobsite.allByCompany(vm.user.company_id)
+          .success(function (data) {
+            if (data.success)
+              vm.jobsites = data.jobsite;
+            console.log(data);
+            console.log(vm.jobsites);
+          })
       });
 
+    vm.showReport = function (jobsite_id) {
+      console.log(jobsite_id);
+      $location.path('/jobsites/report/' + jobsite_id);
+    };
   })
   .controller('reportController', function (Report, Jobsite, $routeParams, reports, $scope) {
     var vm = this;
